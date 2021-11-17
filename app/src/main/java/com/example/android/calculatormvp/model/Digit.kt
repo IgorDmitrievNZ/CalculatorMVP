@@ -1,21 +1,17 @@
 package com.example.android.calculatormvp.model
 
-import java.util.ArrayList
+import java.util.*
 
 class Digit {
-    private val mod = ArrayList<Int>()
-    private val div = ArrayList<Int>()
-    var isReal = false
+    private val mod = ArrayList<Int>()  //whole number
+    private val div = ArrayList<Int>()  //a fractional number
 
-        private set
+    var isReal = false                  //checking fractional
 
     fun removeDigit() {
         if (mod.isEmpty()) {
+            ///
         }
-    }
-
-    fun makeInt() {
-        isReal = false
     }
 
     fun addDigit(value: Int) {
@@ -26,8 +22,12 @@ class Digit {
         }
     }
 
-    fun toDouble(): Double {
-        val result = 0.0
-        return 0.0
+    // transform to double
+    fun toDoubleConvert(): Double {
+        var result = 0.0
+        for (i: Int in div) {
+            result = result * 10 + i
+        }
+        return result
     }
 }

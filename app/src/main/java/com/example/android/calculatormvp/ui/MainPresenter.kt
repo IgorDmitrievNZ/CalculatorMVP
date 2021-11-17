@@ -1,15 +1,74 @@
 package com.example.android.calculatormvp.ui
 
 import com.example.android.calculatormvp.model.Calculator
+import com.example.android.calculatormvp.model.Digit
 import com.example.android.calculatormvp.model.Operation
 
-class MainPresenter(private val view: MainView,private val calculator:Calculator) {
+class MainPresenter(private val view: MainView, private val calculator: Calculator) {
+
+    private val argOne: Digit = Digit()
+    private val argTwo: Digit? = null
+    private var operation: Operation? = null
+
+    //DIGITS
 
     fun onKeyZeroPressed() {
-        calculator.performOperation(2.0, 3.5, Operation.ADD)
-        view.showResult("Result")
+        argOne.addDigit(0)
+        view.showResult(argOne.toDoubleConvert().toString())
     }
 
-    fun onKeyOnePressed() {}
-    fun onKeyTwoPressed() {}
+    fun onKeyOnePressed() {
+        argOne.addDigit(1)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    fun onKeyTwoPressed() {
+        argOne.addDigit(2)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    fun onKeyThreePressed() {
+        argOne.addDigit(3)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    fun onKeyFourPressed() {
+        argOne.addDigit(4)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    fun onKeyFivePressed() {
+        argOne.addDigit(5)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    fun onKeySixPressed() {
+        argOne.addDigit(6)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    fun onKeySevenPressed() {
+        argOne.addDigit(7)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    fun onKeyEightPressed() {
+        argOne.addDigit(8)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    fun onKeyNinePressed() {
+        argOne.addDigit(9)
+        view.showResult(argOne.toDoubleConvert().toString())
+    }
+
+    //OPERATIONS
+
+    fun onKeyPlusPressed() {
+        operation = Operation.ADD
+
+        if (argOne != null && argTwo != null) {
+            val result = calculator.performOperation(argOne, argTwo, operation!!)
+        }
+    }
 }
