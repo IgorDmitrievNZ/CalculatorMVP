@@ -1,10 +1,10 @@
 package com.example.android.calculatormvp.ui
 
-import com.example.android.calculatormvp.model.Calculator
+import com.example.android.calculatormvp.model.CalculatorStringParcelize
 import com.example.android.calculatormvp.model.Digit
 import com.example.android.calculatormvp.model.Operation
 
-class MainPresenter(private val view: MainView, private val calculator: Calculator) {
+class MainPresenter(private val view: CalculatorView, private val calculatorStringParcelize: CalculatorStringParcelize) {
 
     private val argOne: Digit = Digit()
     private val argTwo: Digit? = null
@@ -68,7 +68,7 @@ class MainPresenter(private val view: MainView, private val calculator: Calculat
         operation = Operation.ADD
 
         if (argOne != null && argTwo != null) {
-            val result = calculator.performOperation(argOne, argTwo, operation!!)
+//            val result = calculator.performOperation(argOne, argTwo, operation!!)
         }
     }
 }
