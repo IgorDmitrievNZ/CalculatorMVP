@@ -5,13 +5,15 @@ import com.example.android.calculatormvp.model.Operation
 
 class CalculatorPresenter(
     private val view: CalculatorView,
-    private val model: CalculatorStringParcelize
+    private val model: CalculatorStringParcelize,
 ) {
 
-    var calculationHistory: List<String> = listOf()
-    var opHistory:String  = ""
+    var history: String = ""
+    private var opHistory: String = ""
     private var defaultUserInput: String = ""
+    var previousArg: String = ""
     private var defaultOperation: Operation = Operation.ADD
+    var isDefaultOp: Boolean = false
     var defaultValue: Double = 0.0
     var isValueSet: Boolean = false
 
@@ -26,6 +28,7 @@ class CalculatorPresenter(
         } else {
             defaultUserInput += digit.toString()
         }
+        addHistory(digit.toString())
         updateDisplay()
     }
 
@@ -33,29 +36,50 @@ class CalculatorPresenter(
      * This function works when a user pressed any of an operation buttons like "+" "-" "/" "*" etc
      */
 
-    fun insertOperation(operation: Operation): String {
-        val oppADD: String = "+"
-
+    fun insertOperation(operation: Operation){
         calculation()
         defaultOperation = operation
+        isDefaultOp = true
 
-        if (operation == Operation.ADD) {
-            updateDisplay()
-            opHistory = oppADD
-//            view.showHistory(oppADD)
+        when (operation) {
+            Operation.ADD -> {
+                opHistory = " + "
+                addHistory(opHistory)
+                updateDisplay()
+            }
+            Operation.SUB -> {
+                opHistory = " - "
+                addHistory(opHistory)
+                updateDisplay()
+            }
+            Operation.MULT -> {
+                opHistory = " * "
+                addHistory(opHistory)
+                updateDisplay()
+            }
+            Operation.DEVI -> {
+                opHistory = " / "
+                addHistory(opHistory)
+                updateDisplay()
+            }
         }
-        return oppADD
     }
 
     fun onEqualsButtonPressed() {
         calculation()
         updateDisplay()
+        view.showHistory(history + " = " + defaultValue.toString().replace("\\.0$".toRegex(), ""))
     }
 
     fun onClearButtonPressed() {
         defaultUserInput = ""
+        defaultValue = 0.0
+        previousArg = ""
+        history = ""
+        opHistory = ""
         isValueSet = false
         updateDisplay()
+        view.showHistory("0")
     }
 
     fun onDotButtonPressed() {
@@ -66,12 +90,12 @@ class CalculatorPresenter(
             defaultUserInput = "0."
         }
         updateDisplay()
+        addHistory(".")
     }
 
 
     /**
      * This function displays a digit inserted by user.
-     *
      */
 
     private fun updateDisplay() {
@@ -87,7 +111,7 @@ class CalculatorPresenter(
             text = "0"
         }
         view.showResult(text)
-        view.showHistory(noNameFunction(defaultUserInput, opHistory))
+        view.showHistory(history)
     }
 
     private fun isUserEnteredNumber() = defaultUserInput != ""
@@ -103,11 +127,13 @@ class CalculatorPresenter(
             defaultValue = model.performOperation(defaultValue, currentValue, defaultOperation)
         }
         isValueSet = true
+        previousArg = defaultUserInput
         defaultUserInput = ""
     }
 
-    private fun noNameFunction(display: String, operation: String): String {
-        return "$display $operation "
+    private fun addHistory(value: String): String {
+        history += value
+        return value
     }
 
 }
